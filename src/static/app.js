@@ -18,22 +18,52 @@ document.addEventListener("DOMContentLoaded", () => {
         const activityCard = document.createElement("div");
         activityCard.className = "activity-card";
 
-        const spotsLeft = details.max_participants - details.participants.length;
+        // Activity name as blue link-style heading (not a real link)
+        const title = document.createElement("h4");
+        title.textContent = name;
+        title.style.color = "#1565c0";
+        title.style.fontWeight = "bold";
+        title.style.marginBottom = "8px";
+        activityCard.appendChild(title);
 
-        activityCard.innerHTML = `
-          <h4>${name}</h4>
-          <p>${details.description}</p>
-          <p><strong>Schedule:</strong> ${details.schedule}</p>
-          <p><strong>Max Participants:</strong> ${details.max_participants}</p>
-          <div style="margin-top: 10px;">
-            <strong>Participants:</strong>
-            ${details.participants && details.participants.length > 0 ? `
-              <ul style="margin: 8px 0 0 18px;">
-                ${details.participants.map(email => `<li>${email}</li>`).join('')}
-              </ul>
-            ` : '<span> None yet</span>'}
-          </div>
-        `;
+        // Description
+        const desc = document.createElement("p");
+        desc.textContent = details.description;
+        desc.style.marginBottom = "14px";
+        activityCard.appendChild(desc);
+
+        // Schedule
+        const sched = document.createElement("p");
+        sched.innerHTML = `<strong>Schedule:</strong> ${details.schedule}`;
+        activityCard.appendChild(sched);
+
+        // Availability (spots left)
+        const spotsLeft = details.max_participants - (details.participants ? details.participants.length : 0);
+        const avail = document.createElement("p");
+        avail.innerHTML = `<strong>Availability:</strong> ${spotsLeft} spot${spotsLeft === 1 ? "" : "s"} left`;
+        activityCard.appendChild(avail);
+
+        // Participants section
+        const participantsTitle = document.createElement("p");
+        participantsTitle.innerHTML = "<strong>Participants:</strong>";
+        participantsTitle.style.marginBottom = "4px";
+        activityCard.appendChild(participantsTitle);
+
+        if (details.participants && details.participants.length > 0) {
+          const ul = document.createElement("ul");
+          ul.style.margin = "0 0 0 18px";
+          ul.style.padding = "0";
+          details.participants.forEach(email => {
+            const li = document.createElement("li");
+            li.textContent = email;
+            ul.appendChild(li);
+          });
+          activityCard.appendChild(ul);
+        } else {
+          const none = document.createElement("span");
+          none.textContent = " None yet";
+          activityCard.appendChild(none);
+        }
 
         activitiesList.appendChild(activityCard);
 
