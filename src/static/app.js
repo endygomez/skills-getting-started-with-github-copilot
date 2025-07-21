@@ -43,27 +43,36 @@ document.addEventListener("DOMContentLoaded", () => {
         avail.innerHTML = `<strong>Availability:</strong> ${spotsLeft} spot${spotsLeft === 1 ? "" : "s"} left`;
         activityCard.appendChild(avail);
 
-        // Participants section
-        const participantsTitle = document.createElement("p");
+        // Participants section (pretty)
+        const participantsSection = document.createElement("div");
+        participantsSection.style.marginTop = "10px";
+        participantsSection.style.background = "#eef4fb";
+        participantsSection.style.borderRadius = "4px";
+        participantsSection.style.padding = "8px 12px";
+
+        const participantsTitle = document.createElement("span");
         participantsTitle.innerHTML = "<strong>Participants:</strong>";
-        participantsTitle.style.marginBottom = "4px";
-        activityCard.appendChild(participantsTitle);
+        participantsSection.appendChild(participantsTitle);
 
         if (details.participants && details.participants.length > 0) {
           const ul = document.createElement("ul");
-          ul.style.margin = "0 0 0 18px";
+          ul.style.margin = "8px 0 0 18px";
           ul.style.padding = "0";
           details.participants.forEach(email => {
             const li = document.createElement("li");
             li.textContent = email;
+            li.style.fontSize = "0.97em";
             ul.appendChild(li);
           });
-          activityCard.appendChild(ul);
+          participantsSection.appendChild(ul);
         } else {
           const none = document.createElement("span");
           none.textContent = " None yet";
-          activityCard.appendChild(none);
+          none.style.marginLeft = "6px";
+          participantsSection.appendChild(none);
         }
+
+        activityCard.appendChild(participantsSection);
 
         activitiesList.appendChild(activityCard);
 
