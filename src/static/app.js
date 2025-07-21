@@ -54,23 +54,23 @@ document.addEventListener("DOMContentLoaded", () => {
         participantsTitle.innerHTML = "<strong>Participants:</strong>";
         participantsSection.appendChild(participantsTitle);
 
+        const ul = document.createElement("ul");
+        ul.style.margin = "8px 0 0 18px";
+        ul.style.padding = "0";
         if (details.participants && details.participants.length > 0) {
-          const ul = document.createElement("ul");
-          ul.style.margin = "8px 0 0 18px";
-          ul.style.padding = "0";
           details.participants.forEach(email => {
             const li = document.createElement("li");
             li.textContent = email;
             li.style.fontSize = "0.97em";
             ul.appendChild(li);
           });
-          participantsSection.appendChild(ul);
         } else {
-          const none = document.createElement("span");
-          none.textContent = " None yet";
-          none.style.marginLeft = "6px";
-          participantsSection.appendChild(none);
+          const li = document.createElement("li");
+          li.textContent = "None yet";
+          li.style.fontStyle = "italic";
+          ul.appendChild(li);
         }
+        participantsSection.appendChild(ul);
 
         activityCard.appendChild(participantsSection);
 
